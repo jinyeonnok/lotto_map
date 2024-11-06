@@ -85,10 +85,31 @@ elif selected_option == "당첨 주소":
         
     st.title("당첨 지점")
     
-      
-
-    st.markdown('<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3168.371067633137!2d126.97865241502782!3d37.56654197979855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2ef8e8c5d61%3A0xf1de5e8d8e6de2c1!2sSeoul!5e0!3m2!1sen!2skr!4v1633124003205!5m2!1sen!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', unsafe_allow_html=True)
-      
+      # 4개의 마커 좌표
+    coordinates = [
+        (37.5665, 126.978),  # 서울
+        (37.567, 126.979),  # 서울2
+        (37.565, 126.977),  # 서울3
+        (37.564, 126.975),  # 서울4
+    ]
+    
+    # 마커를 포함한 Google Maps Embed URL 생성
+    base_url = "https://www.google.com/maps/embed/v1/view?"
+    markers = []
+    for lat, lon in coordinates:
+        markers.append(f"markers={lat},{lon}")
+    
+    # 마커들을 URL에 추가
+    marker_str = '&'.join(markers)
+    url = f"{base_url}key=YOUR_API_KEY&{marker_str}&zoom=14"
+    
+    # HTML iframe 코드
+    iframe_code = f"""
+    <iframe src="{url}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    """
+    
+    # Streamlit에 지도 표시
+    st.markdown(iframe_code, unsafe_allow_html=True)
 
     
         
