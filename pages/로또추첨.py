@@ -84,33 +84,42 @@ elif selected_option == "당첨 주소":
         
     st.title("당첨 지점")
     
+    soup = get_address.reqeusts_address(최근회차)
+    address1 = get_address.get_address(soup, 등위=1)
+    address2 = get_address.get_address(soup, 등위=2)
+    
+    # 1등, 2등 구분을 위한 rank 컬럼 추가
+    address1['rank'] = 1
+    address2['rank'] = 2
+    
+    # 좌표 없는 데이터 제외
+    address1 = address1.dropna(subset=['lat', 'lng'])
+    address2 = address2.dropna(subset=['lat', 'lng'])
+    
     
     import folium
     from streamlit_folium import folium_static
     import streamlit as st
     
-    # 사용자로부터 여러 마커의 좌표를 입력받기 (예시로 4개의 위치)
-    latitude1 = st.number_input('위도 1을 입력하세요:', value=37.5665, step=0.0001)
-    longitude1 = st.number_input('경도 1을 입력하세요:', value=126.978, step=0.0001)
     
-    latitude2 = st.number_input('위도 2를 입력하세요:', value=37.5500, step=0.0001)
-    longitude2 = st.number_input('경도 2를 입력하세요:', value=126.9800, step=0.0001)
-    
-    latitude3 = st.number_input('위도 3을 입력하세요:', value=37.5900, step=0.0001)
-    longitude3 = st.number_input('경도 3을 입력하세요:', value=126.9950, step=0.0001)
-    
-    latitude4 = st.number_input('위도 4를 입력하세요:', value=37.5400, step=0.0001)
-    longitude4 = st.number_input('경도 4를 입력하세요:', value=127.0100, step=0.0001)
+    latitude1 = address1['lat'][0]
+    longitude1 =  address1['lng'][0]
     
     # 지도 생성 (중심은 첫 번째 마커로 설정)
     map_center = [latitude1, longitude1]  # 첫 번째 마커 위치로 지도 중심 설정
     my_map = folium.Map(location=map_center, zoom_start=12)
     
-    # 마커 추가
-    folium.Marker([latitude1, longitude1], popup=f'위도: {latitude1}, 경도: {longitude1}').add_to(my_map)
-    folium.Marker([latitude2, longitude2], popup=f'위도: {latitude2}, 경도: {longitude2}').add_to(my_map)
-    folium.Marker([latitude3, longitude3], popup=f'위도: {latitude3}, 경도: {longitude3}').add_to(my_map)
-    folium.Marker([latitude4, longitude4], popup=f'위도: {latitude4}, 경도: {longitude4}').add_to(my_map)
+    
+    for i in range(0,len(address1) ):
+        
+        latitude1 = address1['lat'][i]
+        longitude1 =  address1['lng'][i]
+        folium.Marker([latitude1, longitude1], popup=f'위도: {latitude1}, 경도: {longitude1}').add_to(my_map)
+        
+        
+        latitude1 = address2['lat'][i]
+        longitude2 =  address2['lng'][i]
+        folium.Marker([latitude1, longitude2], popup=f'위도: {latitude1}, 경도: {longitude1}').add_to(my_map)
     
     # Streamlit에 지도 표시
     folium_static(my_map)
