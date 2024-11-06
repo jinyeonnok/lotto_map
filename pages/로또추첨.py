@@ -83,73 +83,12 @@ elif selected_option == "당첨 주소":
                 
     
         
-    st.title("당첨 주소")
+    st.title("당첨 지점")
     
+      
+
+    st.markdown('<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3168.371067633137!2d126.97865241502782!3d37.56654197979855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2ef8e8c5d61%3A0xf1de5e8d8e6de2c1!2sSeoul!5e0!3m2!1sen!2skr!4v1633124003205!5m2!1sen!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', unsafe_allow_html=True)
+      
+
     
-    # KakaoMap API Key
-    KAKAO_API_KEY = '60e0d7f939da04fcdb20bd983cb70fb2'
-    
-    # HTML과 JavaScript 코드
-    html_code = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>KaKaoMap Study : Winning Addresses</title>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=""" + KAKAO_API_KEY + """"></script>
-    </head>
-    <body>
-        <div id="map" style="width:100%;height:500px;"></div>
-        
-        <script type="text/javascript">
-            var mapContainer = document.getElementById('map'); 
-            var mapOption  = { 
-                center: new kakao.maps.LatLng(33.450701, 126.570667), 
-                level: 3 
-            };
-            var map = new kakao.maps.Map(mapContainer, mapOption ); 
-    
-            var geocoder = new kakao.maps.services.Geocoder();
-            
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-                // 정상적으로 검색이 완료됐으면 
-                 if (status === kakao.maps.services.Status.OK) {
-            
-                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            
-                    // 결과값으로 받은 위치를 마커로 표시합니다
-                    var marker = new kakao.maps.Marker({
-                        map: map,
-                        position: coords
-                    });
-            
-                    // 인포윈도우로 장소에 대한 설명을 표시합니다
-                    var infowindow = new kakao.maps.InfoWindow({
-                        content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-                    });
-                    infowindow.open(map, marker);
-            
-                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                    map.setCenter(coords);
-                } 
-            });   
-
-
-            
-
-
-
-
-
-
-        </script>
-    </body>
-    </html>
-    """
-    
-    # Streamlit에서 HTML 코드 실행
-    components.html(html_code, height=600)
-        
         
