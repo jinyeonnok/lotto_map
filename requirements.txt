@@ -1,0 +1,14 @@
+beautifulsoup4
+joblib
+keras==3.6.0
+lxml
+matplotlib
+numpy
+pandas
+plotly
+scikit-learn==1.5.2
+streamlit
+tensorflow-cpu==2.18.0
+geopy==2.4.1
+folium==0.18.0
+streamlit_folium==0.23.1
