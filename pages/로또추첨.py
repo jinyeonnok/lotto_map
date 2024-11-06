@@ -109,17 +109,22 @@ elif selected_option == "당첨 주소":
     map_center = [latitude1, longitude1]  # 첫 번째 마커 위치로 지도 중심 설정
     my_map = folium.Map(location=map_center, zoom_start=12)
     
-    
+
     for i in range(0,len(address1) ):
+        '''
+        i = 0
+        '''
         
-        latitude1 = address1['lat'][i]
-        longitude1 =  address1['lng'][i]
-        folium.Marker([latitude1, longitude1], popup=f'위도: {latitude1}, 경도: {longitude1}').add_to(my_map)
+        latitude1 = address1['lat'].iloc[i]
+        longitude1 =  address1['lng'].iloc[i]
+        이름1 = address1['name'].iloc[i]
+        folium.Marker([latitude1, longitude1], popup=f'1등 당첨지역 : {이름1}').add_to(my_map)
         
         
-        latitude1 = address2['lat'][i]
-        longitude2 =  address2['lng'][i]
-        folium.Marker([latitude1, longitude2], popup=f'위도: {latitude1}, 경도: {longitude1}').add_to(my_map)
+        latitude1 = address2['lat'].iloc[i]
+        longitude2 =  address2['lng'].iloc[i]
+        이름2 = address2['name'].iloc[i]
+        folium.Marker([latitude1, longitude2], popup=f'2등 당첨지역 : {이름2}').add_to(my_map)
     
     # Streamlit에 지도 표시
     folium_static(my_map)
