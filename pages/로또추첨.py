@@ -107,16 +107,17 @@ elif selected_option == "당첨 주소":
     map_center = [latitude1, longitude1]  # 첫 번째 마커 위치로 지도 중심 설정
     my_map = folium.Map(location=map_center, zoom_start=12)
         
-        
+            
     
     # 1등 마커 추가
     for i in range(len(address1)):
         latitude1 = address1['lat'].iloc[i]
         longitude1 = address1['lng'].iloc[i]
         이름1 = address1['name'].iloc[i]
+        주소1 = address1['address'].iloc[i]
         
         # 팝업을 HTML로 작성하여 가로로 표시되게 스타일을 적용
-        popup_content = f'<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">1등 당첨지역 : {이름1}</div>'
+        popup_content = f'<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">1등 당첨지역 : {이름1}<br>주소 : {주소1}</div>'
         folium.Marker([latitude1, longitude1], popup=folium.Popup(popup_content, max_width=200)).add_to(my_map)
     
     # 2등 마커 추가
@@ -124,9 +125,10 @@ elif selected_option == "당첨 주소":
         latitude2 = address2['lat'].iloc[i]
         longitude2 = address2['lng'].iloc[i]
         이름2 = address2['name'].iloc[i]
+        주소2 = address2['address'].iloc[i]
         
         # 팝업을 HTML로 작성하여 가로로 표시되게 스타일을 적용
-        popup_content = f'<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">2등 당첨지역 : {이름2}</div>'
+        popup_content = f'<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">2등 당첨지역 : {이름2}<br>주소 : {주소2}</div>'
         folium.Marker([latitude2, longitude2], popup=folium.Popup(popup_content, max_width=200)).add_to(my_map)
 
     
