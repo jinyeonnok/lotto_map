@@ -107,6 +107,7 @@ elif selected_option == "당첨 주소":
     map_center = [latitude1, longitude1]  # 첫 번째 마커 위치로 지도 중심 설정
     my_map = folium.Map(location=map_center, zoom_start=12)
         
+        
     
     # 1등 마커 추가
     for i in range(len(address1)):
