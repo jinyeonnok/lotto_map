@@ -4,6 +4,9 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 import urllib.parse
+import folium
+from streamlit_folium import folium_static
+import streamlit as st
 
 
 from pages.functions.get_data import Lotto_class
@@ -81,11 +84,6 @@ elif selected_option == "AI 로또 추첨기":
 elif selected_option == "당첨 주소":
                 
     
-    
-    import folium
-    from streamlit_folium import folium_static
-    import streamlit as st
-    
         
     st.title("당첨 지점")
     
@@ -108,20 +106,28 @@ elif selected_option == "당첨 주소":
     longitude1 = address1['lng'].iloc[0]
     map_center = [latitude1, longitude1]  # 첫 번째 마커 위치로 지도 중심 설정
     my_map = folium.Map(location=map_center, zoom_start=12)
+        
     
     # 1등 마커 추가
     for i in range(len(address1)):
         latitude1 = address1['lat'].iloc[i]
         longitude1 = address1['lng'].iloc[i]
         이름1 = address1['name'].iloc[i]
-        folium.Marker([latitude1, longitude1], popup=f'1등 당첨지역 : {이름1}').add_to(my_map)
+        
+        # 팝업을 HTML로 작성하여 가로로 표시되게 스타일을 적용
+        popup_content = f'<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">1등 당첨지역 : {이름1}</div>'
+        folium.Marker([latitude1, longitude1], popup=folium.Popup(popup_content, max_width=200)).add_to(my_map)
     
     # 2등 마커 추가
     for i in range(len(address2)):
         latitude2 = address2['lat'].iloc[i]
         longitude2 = address2['lng'].iloc[i]
         이름2 = address2['name'].iloc[i]
-        folium.Marker([latitude2, longitude2], popup=f'2등 당첨지역 : {이름2}').add_to(my_map)
+        
+        # 팝업을 HTML로 작성하여 가로로 표시되게 스타일을 적용
+        popup_content = f'<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">2등 당첨지역 : {이름2}</div>'
+        folium.Marker([latitude2, longitude2], popup=folium.Popup(popup_content, max_width=200)).add_to(my_map)
+
     
     # Streamlit에 지도 표시
     folium_static(my_map)
