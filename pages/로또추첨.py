@@ -81,9 +81,16 @@ elif selected_option == "AI 로또 추첨기":
 elif selected_option == "당첨 주소":
                 
     
+    
+    import folium
+    from streamlit_folium import folium_static
+    import streamlit as st
+    
         
     st.title("당첨 지점")
     
+    
+    # 데이터 가져오기 (get_address는 외부 함수로 가정)
     soup = get_address.reqeusts_address(최근회차)
     address1 = get_address.get_address(soup, 등위=1)
     address2 = get_address.get_address(soup, 등위=2)
@@ -96,38 +103,27 @@ elif selected_option == "당첨 주소":
     address1 = address1.dropna(subset=['lat', 'lng'])
     address2 = address2.dropna(subset=['lat', 'lng'])
     
-    
-    import folium
-    from streamlit_folium import folium_static
-    import streamlit as st
-    
-    
-    latitude1 = address1['lat'][0]
-    longitude1 =  address1['lng'][0]
-    
-    # 지도 생성 (중심은 첫 번째 마커로 설정)
+    # 첫 번째 마커의 좌표를 중심으로 지도 생성
+    latitude1 = address1['lat'].iloc[0]
+    longitude1 = address1['lng'].iloc[0]
     map_center = [latitude1, longitude1]  # 첫 번째 마커 위치로 지도 중심 설정
     my_map = folium.Map(location=map_center, zoom_start=12)
     
-
-    for i in range(0,len(address1) ):
-        '''
-        i = 0
-        '''
-        
+    # 1등 마커 추가
+    for i in range(len(address1)):
         latitude1 = address1['lat'].iloc[i]
-        longitude1 =  address1['lng'].iloc[i]
+        longitude1 = address1['lng'].iloc[i]
         이름1 = address1['name'].iloc[i]
         folium.Marker([latitude1, longitude1], popup=f'1등 당첨지역 : {이름1}').add_to(my_map)
-        
-        
-        latitude1 = address2['lat'].iloc[i]
-        longitude2 =  address2['lng'].iloc[i]
+    
+    # 2등 마커 추가
+    for i in range(len(address2)):
+        latitude2 = address2['lat'].iloc[i]
+        longitude2 = address2['lng'].iloc[i]
         이름2 = address2['name'].iloc[i]
-        folium.Marker([latitude1, longitude2], popup=f'2등 당첨지역 : {이름2}').add_to(my_map)
+        folium.Marker([latitude2, longitude2], popup=f'2등 당첨지역 : {이름2}').add_to(my_map)
     
     # Streamlit에 지도 표시
     folium_static(my_map)
-
     
         
