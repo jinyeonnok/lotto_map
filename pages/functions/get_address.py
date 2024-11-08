@@ -9,23 +9,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
-import json
-# from dotenv import load_dotenv
-import os
 
-# .env 파일에서 API 키 로드
-# load_dotenv()
-# API 키 설정
-# def get_api_key():
-#     try:
-#         # Streamlit Cloud에서 실행될 때
-#         return st.secrets["KAKAO_REST_KEY"]
-#     except:
-#         # 로컬에서 실행될 때
-#         load_dotenv()
-#         return os.getenv('KAKAO_REST_KEY')
 
-KAKAO_REST_KEY = "60e0d7f939da04fcdb20bd983cb70fb2"
 
 def clean_address(address):
     """주소 정제 함수"""
@@ -88,9 +73,6 @@ def reqeusts_address(회차):
     }
     
     response = requests.post(url, params=query_params, data=form_data)
-    
-    
-    
     return BeautifulSoup(response.text, 'html.parser')
 
 def get_address(soup, 등위=1):
@@ -99,7 +81,6 @@ def get_address(soup, 등위=1):
     soup = soup
     등위 = 1
     '''
-    
     # 테이블 데이터 추출
     table = soup.find_all('table', {'class': 'tbl_data tbl_data_col'})[등위-1]
     headers = [th.get_text(strip=True) for th in table.find('thead').find_all('th')]
@@ -152,6 +133,7 @@ def get_address(soup, 등위=1):
 
 
 
+@st.cache_data(ttl=3600) 
 def get_store_data(회차=1144):
     """당첨 판매점 데이터 조회"""
     '''
